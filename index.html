@@ -168,10 +168,10 @@
         const [id, nom, estati, dat] = ligne.split(",");
 
         if (id.trim().toUpperCase() === trackingNumber) {
-          resultat.innerHTML = `<p><strong>Tracking ID:</strong> id</p>
-            <p><strong>Non Kliyan:</strong>{nom}</p>
-            <p><strong>Estati:</strong> estati</p>
-            <p><strong>Dènye Mizajou:</strong>{dat}</p>
+          resultat.innerHTML = `<p><strong>Tracking ID:</strong> row["Tracking ID"]</p>
+            <p><strong>Non Kliyan:</strong>{row["Non Kliyan"]}</p>
+            <p><strong>Estati:</strong> roe["Estati"]</p>
+            <p><strong>Dènye Mizajou:</strong>{row["Denye Mizajou"]}</p>
           `;
           trouve = true;
         }
