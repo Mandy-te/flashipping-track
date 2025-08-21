@@ -147,35 +147,46 @@
 </section>
 
 <script>
-  async function searchTracking() {
-    const input = document.getElementById('trackInput').value.trim();
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = "Nap chache...";
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/pubhtml';
+  async function rechercheTracking() {
+    const trackingNumber = document.getElementById("trackingInput").value.trim().toUpperCase();
+    const resultat = document.getElementById("resultat");
+
+    if (!trackingNumber) {
+      resultat.innerText = "Tanpri antre yon nimewo tracking.";
+      return;
+    }
 
     try {
-      const res = await fetch(sheetUrl);
-      const text = await res.text();
-      const json = JSON.parse(text.substr(47).slice(0, -2));
-      const rows = json.table.rows;
+      const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/pub?output=csv");
+      const data = await response.text();
 
-      const match = rows.find(row => row.c[0]?.v?.toLowerCase() === input.toLowerCase());
+      const lignes = data.split("\n").slice(1); // Skip header
+      let trouve = false;
 
-      if (match) {
-        resultDiv.innerHTML = `
-          <p><strong>Non:</strong> match.c[1]?.v</p>
-          <p><strong>Estati:</strong>{match.c[2]?.v}</p>
-          <p><strong>Dernye Mizajou:</strong> ${match.c[3]?.v}</p>
-        `;
-      } else {
-        resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
+      lignes.forEach(ligne => {
+        const [id, nom, estati, dat] = ligne.split(",");
+
+        if (id.trim().toUpperCase() === trackingNumber) {
+          resultat.innerHTML = `<p><strong>Tracking ID:</strong> id</p>
+            <p><strong>Non Kliyan:</strong>{nom}</p>
+            <p><strong>Estati:</strong> estati</p>
+            <p><strong>Dènye Mizajou:</strong>{dat}</p>
+          `;
+          trouve = true;
+        }
+      });
+
+      if (!trouve) {
+        resultat.innerText = "Pa gen enfòmasyon pou nimewo sa.";
       }
 
-    } catch (e) {
-      resultDiv.innerHTML = "Erè pandan chajman. Tanpri eseye ankò.";
+    } catch (error) {
+      resultat.innerText = "Erè pandan chajman. Tanpri eseye ankò.";
+      console.error(error);
     }
   }
 </script>
+
 
 </body>
 </html>
