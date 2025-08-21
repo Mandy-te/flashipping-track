@@ -66,6 +66,59 @@
       <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">Jwenn Sèvis</a>
     </div>
   </section>
+
+  <!-- Tracking Section -->
+<section id="tracking" class="py-16 bg-blue-50">
+  <div class="max-w-3xl mx-auto px-4 text-center">
+    <h2 class="text-2xl font-bold mb-4 text-blue-700">Suiv Kago Ou</h2>
+    <input id="trackInput" type="text" placeholder="Antre Tracking Number ou..." class="w-full p-3 rounded border mb-4">
+    <button onclick="searchTracking()" class="bg-blue-600 text-white px-6 py-2 rounded">Suivre</button>
+    <div id="result" class="mt-6 text-left text-gray-700"></div>
+  </div>
+</section>
+
+<script>
+  async function searchTracking() {
+    const input = document.getElementById('trackInput').value.trim();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "Nap chache...";
+
+    // Ranplase lyen sa ak lyen CSV ou jwenn lè w fin "Publish to web"
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/pub?output=csv';
+
+    try {
+      const res = await fetch(csvUrl);
+      const text = await res.text();
+
+      // Separe chak liy (retire header)
+      const lines = text.split('\n').slice(1);
+
+      let match = null;
+
+      for (let line of lines) {
+        const [id, nom, estati, dat] = line.split(',');
+
+        if (id?.trim().toLowerCase() === input.toLowerCase()) {
+          match = { nom, estati, dat };
+          break;
+        }
+      }
+
+      if (match) {
+        resultDiv.innerHTML = `
+          <p><strong>Non:</strong> ${match.nom}</p>
+          <p><strong>Estati:</strong> ${match.estati}</p>
+          <p><strong>Dernye Mizajou:</strong> ${match.dat}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
+      }
+
+    } catch (e) {
+      resultDiv.innerHTML = "Erè pandan chajman. Tanpri eseye ankò.";
+    }
+  }
+</script>
   <!-- Services Section -->
 <section class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-4">
@@ -170,58 +223,6 @@
     </div>
   </div>
 </section>
- <!-- Tracking Section -->
-<section id="tracking" class="py-16 bg-blue-50">
-  <div class="max-w-3xl mx-auto px-4 text-center">
-    <h2 class="text-2xl font-bold mb-4 text-blue-700">Suiv Kago Ou</h2>
-    <input id="trackInput" type="text" placeholder="Antre Tracking Number ou..." class="w-full p-3 rounded border mb-4">
-    <button onclick="searchTracking()" class="bg-blue-600 text-white px-6 py-2 rounded">Suivre</button>
-    <div id="result" class="mt-6 text-left text-gray-700"></div>
-  </div>
-</section>
 
-<script>
-  async function searchTracking() {
-    const input = document.getElementById('trackInput').value.trim();
-    const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = "Nap chache...";
-
-    // Ranplase lyen sa ak lyen CSV ou jwenn lè w fin "Publish to web"
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/pub?output=csv';
-
-    try {
-      const res = await fetch(csvUrl);
-      const text = await res.text();
-
-      // Separe chak liy (retire header)
-      const lines = text.split('\n').slice(1);
-
-      let match = null;
-
-      for (let line of lines) {
-        const [id, nom, estati, dat] = line.split(',');
-
-        if (id?.trim().toLowerCase() === input.toLowerCase()) {
-          match = { nom, estati, dat };
-          break;
-        }
-      }
-
-      if (match) {
-        resultDiv.innerHTML = `
-          <p><strong>Non:</strong> ${match.nom}</p>
-          <p><strong>Estati:</strong> ${match.estati}</p>
-          <p><strong>Dernye Mizajou:</strong> ${match.dat}</p>
-        `;
-      } else {
-        resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
-      }
-
-    } catch (e) {
-      resultDiv.innerHTML = "Erè pandan chajman. Tanpri eseye ankò.";
-    }
-  }
-</script>
- 
 </body>
 </html>
