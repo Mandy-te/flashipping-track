@@ -47,6 +47,16 @@
     const menu = document.getElementById('mobileMenu');
     menu.classList.toggle('hidden');
   }
+
+  // Fèmen meni mobil lan otomatikman lè yo klike sou yon lyen
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('#mobileMenu a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+      });
+    });
+  });
 </script>
   <!-- Hero Section -->
   <section class="pt-24 bg-gradient-to-r from-blue-100 to-blue-300 text-center">
