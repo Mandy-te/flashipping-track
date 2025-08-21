@@ -151,24 +151,35 @@
     const input = document.getElementById('trackInput').value.trim();
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = "Nap chache...";
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/gviz/tq?tqx=out:json';
+
+    // Ranplase lyen sa ak lyen CSV ou jwenn lè w fin "Publish to web"
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/ID_LA/pub?output=csv';
 
     try {
-      const res = await fetch(sheetUrl);
+      const res = await fetch(csvUrl);
       const text = await res.text();
-      const json = JSON.parse(text.substr(47).slice(0, -2));
-      const rows = json.table.rows;
 
-      const match = rows.find(row => row.c[0]?.v?.toLowerCase() === input.toLowerCase());
+      // Separe chak liy (retire header)
+      const lines = text.split('\n').slice(1);
+
+      let match = null;
+
+      for (let line of lines) {
+        const [id, nom, estati, dat] = line.split(',');
+
+        if (id?.trim().toLowerCase() === input.toLowerCase()) {
+          match = { nom, estati, dat };
+          break;
+        }
+      }
 
       if (match) {
         resultDiv.innerHTML = `
-          <p><strong>Non:</strong> match.c[1]?.v</p>
-          <p><strong>Estati:</strong>{match.c[2]?.v}</p>
-          <p><strong>Dernye Mizajou:</strong> ${match.c[3]?.v}</p>
+          <p><strong>Non:</strong> match.nom</p>
+          <p><strong>Estati:</strong>{match.estati}</p>
+          <p><strong>Dernye Mizajou:</strong> ${match.dat}</p>
         `;
-      }
-      else {
+      } else {
         resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
       }
 
@@ -177,7 +188,6 @@
     }
   }
 </script>
-
  
 </body>
 </html>
