@@ -168,16 +168,17 @@
         const [id, nom, estati, dat] = ligne.split(",");
 
         if (id.trim().toUpperCase() === trackingNumber) {
-          resultat.innerHTML = `<p><strong>Tracking ID:</strong> row["Tracking ID"]</p>
-            <p><strong>Non Kliyan:</strong>{row["Non Kliyan"]}</p>
-            <p><strong>Estati:</strong> roe["Estati"]</p>
-            <p><strong>Dènye Mizajou:</strong>{row["Denye Mizajou"]}</p>
+          resultat.innerHTML = `
+            <p><strong>Tracking ID:</strong> id </p>
+            <p><strong>Non Kliyan:</strong> Non Kliyan</p>
+            <p><strong>Estati:</strong> Estati</p>
+            <p><strong>Dènye Mizajou:</strong>{dat}</p>
           `;
           trouve = true;
         }
       });
 
-      if (!trouve) {
+      if (trouve) {
         resultat.innerText = "Pa gen enfòmasyon pou nimewo sa.";
       }
 
