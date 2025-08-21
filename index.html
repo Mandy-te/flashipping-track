@@ -136,59 +136,46 @@
     </div>
   </div>
 </section>
-  <!-- Tracking Section -->
+ <!-- Tracking Section -->
 <section class="py-16 bg-blue-50">
   <div class="max-w-3xl mx-auto px-4 text-center">
     <h2 class="text-2xl font-bold mb-4 text-blue-700">Suiv Kago Ou</h2>
-   <input type="text" id="trackingInput" placeholder="Antre nimewo tracking ou">
-<button onclick="rechercheTracking()">Suivre</button>
-<div id="resultat"></div>
-
+    <input id="trackInput" type="text" placeholder="Antre Tracking Number ou..." class="w-full p-3 rounded border mb-4">
+    <button onclick="searchTracking()" class="bg-blue-600 text-white px-6 py-2 rounded">Suivre</button>
+    <div id="result" class="mt-6 text-left text-gray-700"></div>
   </div>
 </section>
 
 <script>
-  async function rechercheTracking() {
-    const trackingNumber = document.getElementById("trackingInput").value.trim().toUpperCase();
-    const resultat = document.getElementById("resultat");
-
-    if (!trackingNumber) {
-      resultat.innerText = "Tanpri antre yon nimewo tracking.";
-      return;
-    }
+  async function searchTracking() {
+    const input = document.getElementById('trackInput').value.trim();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "Nap chache...";
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/ID_FEY_GOOGLE_SHEET_LA/gviz/tq?tqx=out:json';
 
     try {
-      const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vR7Hf_maMHyA7tC4MKAQOr5cyhqy5wDZYfdRkw78dnTcy1MwUh6w04m6M4edzhjfNthkOnA0tKaAriC/pub?gid=0&single=true&output=csv");
-      const data = await response.text();
+      const res = await fetch(sheetUrl);
+      const text = await res.text();
+      const json = JSON.parse(text.substr(47).slice(0, -2));
+      const rows = json.table.rows;
 
-      const lignes = data.split("\n").slice(1); // Skip header
-      let trouve = false;
+      const match = rows.find(row => row.c[0]?.v?.toLowerCase() === input.toLowerCase());
 
-      lignes.forEach(ligne => {
-        const [id, nom, estati, dat] = ligne.split(",");
-
-        if (id.trim().toUpperCase() === trackingNumber) {
-          resultat.innerHTML = `
-            <p><strong>Tracking ID:</strong> id </p>
-            <p><strong>Non Kliyan:</strong> nom </p>
-            <p><strong>Estati:</strong> estati</p>
-            <p><strong>Dènye Mizajou:</strong>dat</p>
-          `;
-          trouve = true;
-        }
-      });
-
-      if (!trouve) {
-        resultat.innerText = "Pa gen enfòmasyon pou nimewo sa.";
+      if (match) {
+        resultDiv.innerHTML = `
+          <p><strong>Non:</strong> match.c[1]?.v</p>
+          <p><strong>Estati:</strong>{match.c[2]?.v}</p>
+          <p><strong>Dernye Mizajou:</strong> ${match.c[3]?.v}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
       }
 
-    } catch (error) {
-      resultat.innerText = "Erè pandan chajman. Tanpri eseye ankò.";
-      console.error(error);
+    } catch (e) {
+      resultDiv.innerHTML = "Erè pandan chajman. Tanpri eseye ankò.";
     }
   }
 </script>
-
-
+ 
 </body>
 </html>
