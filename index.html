@@ -61,7 +61,121 @@
     </div>
   </div>
 </section>
+<!-- How It Works Section -->
+<section class="py-16 bg-blue-100">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-blue-800 mb-10">Kijan Flashipping mache?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
 
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+        <span class="text-4xl text-blue-600 font-bold mb-4 block">1</span>
+        <h3 class="text-lg font-semibold mb-2">Achte sou entènèt</h3>
+        <p class="text-gray-600">Kliyan fè acha sou Amazon, Shein, elatriye.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+        <span class="text-4xl text-blue-600 font-bold mb-4 block">2</span>
+        <h3 class="text-lg font-semibold mb-2">Voye bay Flashipping</h3>
+        <p class="text-gray-600">Yo voye kago yo nan adrès Miami Flashipping.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+        <span class="text-4xl text-blue-600 font-bold mb-4 block">3</span>
+        <h3 class="text-lg font-semibold mb-2">Nou resevwa & trete yo</h3>
+        <p class="text-gray-600">Nou konfime ak prepare kago pou livrezon.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+        <span class="text-4xl text-blue-600 font-bold mb-4 block">4</span>
+        <h3 class="text-lg font-semibold mb-2">Livrezon fèt Ayiti</h3>
+        <p class="text-gray-600">Nou delivre bay kliyan rapid & san stres.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- Pricing Section -->
+<section class="py-16 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-blue-700 mb-10">Tarif Nou Yo</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <!-- Plan 1 -->
+      <div class="border border-blue-200 p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+        <h3 class="text-xl font-semibold mb-4">Liv Lejè</h3>
+        <p class="text-4xl font-bold text-blue-700 mb-2">2.50/liv</p>
+        <p class="text-gray-600 mb-4">Pou kago ki lejè tankou rad, ti atik elektwonik.</p>
+      </div>
+
+      <!– Plan 2 –>
+      <div class="border-2 border-blue-600 p-6 rounded-lg shadow-lg bg-blue-50 text-center">
+        <h3 class="text-xl font-semibold mb-4">Liv Regilye</h3>
+        <p class="text-4xl font-bold text-blue-700 mb-2">2.00/liv</p>
+        <p class="text-gray-600 mb-4">Pou kago regilye, ak bon balans pwa & volim.</p>
+      </div>
+
+      <!-- Plan 3 -->
+      <div class="border border-blue-200 p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+        <h3 class="text-xl font-semibold mb-4">Liv Lou</h3>
+        <p class="text-4xl font-bold text-blue-700 mb-2">Pri Negosyab</p>
+        <p class="text-gray-600 mb-4">Pou gwo kago oswa kès, kontakte nou pou yon pri espesyal.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+  <!-- Contact Section -->
+<section class="py-16 bg-blue-100">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-blue-800 mb-8">Kontakte Nou</h2>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <p class="mb-4 text-gray-700"><strong>Telefòn:</strong> 3132 4336 / 4657 3495</p>
+      <p class="mb-4 text-gray-700"><strong>Email:</strong> flashippinggroup@gmail.com</p>
+      <p class="mb-4 text-gray-700"><strong>Instagram:</strong> @flashipping</p>
+      <p class="text-gray-700"><strong>Adrès:</strong> (Nap mete pita)</p>
+    </div>
+  </div>
+</section>
+  <!-- Tracking Section -->
+<section class="py-16 bg-blue-50">
+  <div class="max-w-3xl mx-auto px-4 text-center">
+    <h2 class="text-2xl font-bold mb-4 text-blue-700">Suiv Kago Ou</h2>
+    <input id="trackInput" type="text" placeholder="Antre Tracking Number ou..." class="w-full p-3 rounded border mb-4">
+    <button onclick="searchTracking()" class="bg-blue-600 text-white px-6 py-2 rounded">Suivre</button>
+    <div id="result" class="mt-6 text-left text-gray-700"></div>
+  </div>
+</section>
+
+<script>
+  async function searchTracking() {
+    const input = document.getElementById('trackInput').value.trim();
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "Nap chache...";
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/ID_FEY_GOOGLE_SHEET_LA/gviz/tq?tqx=out:json';
+
+    try {
+      const res = await fetch(sheetUrl);
+      const text = await res.text();
+      const json = JSON.parse(text.substr(47).slice(0, -2));
+      const rows = json.table.rows;
+
+      const match = rows.find(row => row.c[0]?.v?.toLowerCase() === input.toLowerCase());
+
+      if (match) {
+        resultDiv.innerHTML = `
+          <p><strong>Non:</strong> match.c[1]?.v</p>
+          <p><strong>Estati:</strong>{match.c[2]?.v}</p>
+          <p><strong>Dernye Mizajou:</strong> ${match.c[3]?.v}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
+      }
+
+    } catch (e) {
+      resultDiv.innerHTML = "Erè pandan chajman. Tanpri eseye ankò.";
+    }
+  }
+</script>
 
 </body>
 </html>
