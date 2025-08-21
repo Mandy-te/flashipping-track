@@ -9,21 +9,31 @@
 </head>
 <body class="bg-white text-gray-800">
 
-  <!-- Navbar -->
-  <header class="shadow-md fixed top-0 left-0 w-full bg-white z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <img src="logo.png" alt="Flashipping Logo" class="w-12 h-12 object-contain" />
-        <span class="text-xl font-bold text-blue-700">Flashipping</span>
-      </div>
-      <nav class="hidden md:flex space-x-6 text-sm font-medium">
-        <a href="#" class="hover:text-blue-600">Accueil</a>
-        <a href="#" class="hover:text-blue-600">Services</a>
-        <a href="#" class="hover:text-blue-600">Tarifs</a>
-        <a href="#" class="hover:text-blue-600">Contact</a>
-      </nav>
+  <!-- Navbar konplè -->
+<header class="shadow-md fixed top-0 left-0 w-full bg-white z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="logo.png" alt="Flashipping Logo" class="w-12 h-12 object-contain" />
+      <span class="text-xl font-bold text-blue-700">Flashipping</span>
     </div>
-  </header>
+
+    <!-- Bouton meni mobil -->
+    <button class="md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+
+    <!-- Meni pou desktop -->
+    <nav class="hidden md:flex space-x-6 text-sm font-medium">
+      <a href="#accueil" class="hover:text-blue-600">Accueil</a>
+      <a href="#services" class="hover:text-blue-600">Services</a>
+      <a href="#tarifs" class="hover:text-blue-600">Tarifs</a>
+      <a href="#contact" class="hover:text-blue-600">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Meni mobil -->
+  <div id="mobileMenu" class="hidden md:hidden flex flex-col px-4 pb-4 space-y-2 text-sm font-medium bg-white">
+    <a href="#accueil" class="hover:text-blue-600">Accueil</a>
+    <a href="#services" class="hover:text-blue-600">Services</a>
 
   <!-- Hero Section -->
   <section class="pt-24 bg-gradient-to-r from-blue-100 to-blue-300 text-center">
