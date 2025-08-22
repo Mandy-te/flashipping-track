@@ -96,19 +96,19 @@
       let match = null;
 
       for (let line of lines) {
-        const [id, nom, estati, dat] = line.split(',');
+        const [id, pwa, estati, dat] = line.split(',');
 
         if (id?.trim().toLowerCase() === input.toLowerCase()) {
-          match = { nom, estati, dat };
+          match = { pwa, estati, dat };
           break;
         }
       }
 
       if (match) {
         resultDiv.innerHTML = `
-          <p><strong>Non:</strong> ${match.nom}</p>
+          <p><strong>Pwa:</strong> ${match.pwa}</p>
           <p><strong>Estati:</strong> ${match.estati}</p>
-          <p><strong>Dernye Mizajou:</strong> ${match.dat}</p>
+          <p><strong>Dènye Mizajou:</strong> ${match.dat}</p>
         `;
       } else {
         resultDiv.innerHTML = "Nou pa jwenn okenn kago ak nimewo sa.";
