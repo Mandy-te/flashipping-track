@@ -129,76 +129,62 @@
   </div>
 
   <!-- Buttons -->
-  <button onclick="prevSlide()" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white px-2 py-1 rounded-full shadow z-10">◀</button>
-  <button onclick="nextSlide()" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white px-2 py-1 rounded-full shadow z-10">▶</button>
+  <button onclick="prevSlide()" class="absolute top-1/2 -left-3 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">❮</button>
+  <button onclick="nextSlide()" class="absolute top-1/2 -right-3 transform -translate-y-1/2 bg-white p-1 rounded-full shadow">❯</button>
 
   <!-- Dots -->
-  <div class="flex justify-center mt-2 space-x-2" id="carouselDots"></div>
+  <div class="flex justify-center mt-2 space-x-2">
+    <span class="dot w-3 h-3 rounded-full bg-gray-400 cursor-pointer" onclick="goToSlide(0)"></span>
+    <span class="dot w-3 h-3 rounded-full bg-gray-400 cursor-pointer" onclick="goToSlide(1)"></span>
+    <span class="dot w-3 h-3 rounded-full bg-gray-400 cursor-pointer" onclick="goToSlide(2)"></span>
+  </div>
 </div>
+
 <script>
-  const slides = document.getElementById('carouselSlides');
+  const slides = document.getElementById("carouselSlides");
+  const dots = document.querySelectorAll(".dot");
+  let currentSlide = 0;
   const totalSlides = slides.children.length;
-  const dotsContainer = document.getElementById('carouselDots');
-  let current = 0;
+  let autoSlide;
 
-  function updateSlide() {
-    slides.style.transform = `translateX(-current * 100
-    updateDots();
-  
-
-  function nextSlide() 
-    current = (current + 1) 
-    updateSlide();
-  
-
-  function prevSlide() 
-    current = (current - 1 + totalSlides) 
-    updateSlide();
-  
-
-  function updateDots() 
-    Array.from(dotsContainer.children).forEach((dot, i) => 
-      dot.className = `w-3 h-3 rounded-full cursor-pointer{i === current ? 'bg-blue-600' : 'bg-gray-300'}`;
+  function updateCarousel() {
+    slides.style.transform = translateX(-${currentSlide * 100}%);
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("bg-blue-600", i === currentSlide);
+      dot.classList.toggle("bg-gray-400", i !== currentSlide);
     });
   }
 
-  function goToSlide(i) {
-    current = i;
-    updateSlide();
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
   }
 
-  for (let i = 0; i < totalSlides; i++) {
-    const dot = document.createElement("div");
-    dot.className = "w-3 h-3 rounded-full cursor-pointer bg-gray-300";
-    dot.addEventListener("click", () => goToSlide(i));
-    dotsContainer.appendChild(dot);
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
   }
 
-  updateSlide();
-
-  setInterval(() => nextSlide(), 5000);
-  let startX = 0;
-  let endX = 0;
-  slides.addEventListener('touchstart', (e) => {
-  startX = e.touches[0].clientX;
-});
-
-  slides.addEventListener('touchend', (e) => {
-  endX = e.changedTouches[0].clientX;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  const swipeThreshold = 50; // minimòm distans pou swipe konte
-  if (startX - endX > swipeThreshold) {
-    nextSlide();
-  } else if (endX - startX > swipeThreshold) {
-    prevSlide();
+  function goToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
   }
-}
 
+  function startAutoSlide() {
+    autoSlide = setInterval(nextSlide, 4000);
+  }
+
+  function stopAutoSlide() {
+    clearInterval(autoSlide);
+  }
+
+  // Start autoplay
+  startAutoSlide();
+
+  // Pause on hover
+  slides.addEventListener("mouseenter", stopAutoSlide);
+  slides.addEventListener("mouseleave", startAutoSlide);
 </script>
-
 
     
   <!-- Services Section -->
