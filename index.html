@@ -120,6 +120,7 @@
   }
 </script>
   <!-- carousel section -->
+html
 <div class="relative w-full overflow-hidden max-w-4xl mx-auto mt-10">
   <!-- Slides -->
   <div id="carouselSlides" class="flex transition-transform duration-500 ease-in-out">
@@ -139,14 +140,13 @@
   <!-- Dots -->
   <div class="flex justify-center mt-2 space-x-2" id="carouselDots"></div>
 </div>
-
-<script>
+  <script>
   const slides = document.getElementById('carouselSlides');
   const totalSlides = slides.children.length;
   const dotsContainer = document.getElementById('carouselDots');
   let current = 0;
-function updateSlide() {
-    slides.style.transform = `translateX(-${current * 100}%)`;
+  function updateSlide() {
+    slides.style.transform = translateX(-${current * 100}%);
     updateDots();
   }
 
@@ -186,6 +186,7 @@ function updateSlide() {
   setInterval(() => nextSlide(), 5000);
 </script>
 
+    
   <!-- Services Section -->
 <section class="py-16 bg-white">
   <div class="max-w-7xl mx-auto px-4">
