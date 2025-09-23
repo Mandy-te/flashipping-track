@@ -1,23 +1,47 @@
 <!DOCTYPE html>
-<html lang="ht">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kreye Kont - Flashipping</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel = "stylesheet" href ="styles.css" />
+  <title>Flashipping - Fast and Secure</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-white text-gray-800">
 
-  <!-- Navbar (menm ak paj dakèy la) -->
-  <header class="shadow-md fixed top-0 left-0 w-full bg-white z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <img src="logo.png" alt="Flashipping Logo" class="w-12 h-12 object-contain" />
-        <span class="text-xl font-bold text-blue-700">Flashipping</span>
-      </div>
+  <!-- Navbar konplè -->
+<header class="shadow-md fixed top-0 left-0 w-full bg-white z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="logo.png" alt="Flashipping Logo" class="w-12 h-12 object-contain" />
+      <span class="text-xl font-bold text-blue-700">Flashipping</span>
     </div>
-  </header>
 
+    <!-- Bouton meni mobil -->
+    <button class="md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+
+    <!-- Meni pou desktop -->
+    <nav class="hidden md:flex space-x-6 text-sm font-medium">
+      <a href="#accueil" class="hover:text-blue-600">Accueil</a>
+      <a href="signup.html" class="hover:text-blue-600">Signup</a>
+      <a href="#services" class="hover:text-blue-600">Services</a>
+      <a href="#tarifs" class="hover:text-blue-600">Tarifs</a>
+      <a href="#tracking" class="hover:text-blue-600">Tracking</a>
+      <a href="#adresse" class="hover:text-blue-600">Adresse</a>
+      <a href="#contact" class="hover:text-blue-600">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Meni mobil -->
+  <div id="mobileMenu" class="hidden md:hidden flex flex-col px-4 pb-4 space-y-2 text-sm font-medium bg-white">
+    <a href="#accueil" class="hover:text-blue-600">Accueil</a>
+    <a href="signup.html" class="hover:text-blue-600">Signup</a>
+    <a href="#services" class="hover:text-blue-600">Services</a>
+    <a href="#tarifs" class="hover:text-blue-600">Tarifs</a>
+    <a href="#tracking" class="hover:text-blue-600">Tracking</a>
+    <a href="#contact" class="hover:text-blue-600">Contact</a>
+  </div>
+</header>
   <main class="pt-24 px-4 max-w-md mx-auto">
     <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Kreye Kont</h2>
     
