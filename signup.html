@@ -1,93 +1,82 @@
 <!DOCTYPE html>
+<html lang="ht">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel = "stylesheet" href ="styles.css" />
-  <title>Flashipping - Fast and Secure</title>
+  <title>Enskripsyon - Flashipping</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("VOTRE_PUBLIC_KEY"); // Remplace ak public key ou
+    })();
+  </script>
 </head>
-<body class="bg-white text-gray-800">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-  <!-- Navbar konplè -->
-<header class="shadow-md fixed top-0 left-0 w-full bg-white z-50">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-    <!-- Logo -->
-    <div class="flex items-center space-x-2">
-      <img src="logo.png" alt="Flashipping Logo" class="w-12 h-12 object-contain" />
-      <span class="text-xl font-bold text-blue-700">Flashipping</span>
-    </div>
-
-    <!-- Bouton meni mobil -->
-    <button class="md:hidden text-2xl" onclick="toggleMenu()">☰</button>
-
-    <!-- Meni pou desktop -->
-    <nav class="hidden md:flex space-x-6 text-sm font-medium">
-      <a href="#accueil" class="hover:text-blue-600">Accueil</a>
-      <a href="signup.html" class="hover:text-blue-600">Signup</a>
-      <a href="#services" class="hover:text-blue-600">Services</a>
-      <a href="#tarifs" class="hover:text-blue-600">Tarifs</a>
-      <a href="#tracking" class="hover:text-blue-600">Tracking</a>
-      <a href="#adresse" class="hover:text-blue-600">Adresse</a>
-      <a href="#contact" class="hover:text-blue-600">Contact</a>
-    </nav>
-  </div>
-
-  <!-- Meni mobil -->
-  <div id="mobileMenu" class="hidden md:hidden flex flex-col px-4 pb-4 space-y-2 text-sm font-medium bg-white">
-    <a href="#accueil" class="hover:text-blue-600">Accueil</a>
-    <a href="signup.html" class="hover:text-blue-600">Signup</a>
-    <a href="#services" class="hover:text-blue-600">Services</a>
-    <a href="#tarifs" class="hover:text-blue-600">Tarifs</a>
-    <a href="#tracking" class="hover:text-blue-600">Tracking</a>
-    <a href="#contact" class="hover:text-blue-600">Contact</a>
-  </div>
-</header>
-  <main class="pt-24 px-4 max-w-md mx-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Kreye Kont</h2>
+  <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-blue-700 mb-4">Kreye Kont ou</h2>
     
     <form id="signupForm" class="space-y-4">
-      <input type="text" placeholder="Non konplè" required class="w-full border p-2 rounded" />
-      <input type="email" placeholder="Email" required class="w-full border p-2 rounded" />
-      <input type="tel" id="phone" placeholder="Nimewo WhatsApp" required class="w-full border p-2 rounded" />
+      <input type="text" id="name" placeholder="Non konplè" class="w-full border px-3 py-2 rounded" required />
+      <input type="email" id="email" placeholder="Imèl ou" class="w-full border px-3 py-2 rounded" required />
+      <input type="tel" id="phone" placeholder="Nimewo telefòn" class="w-full border px-3 py-2 rounded" required />
       
-      <button type="button" onclick="sendVerificationCode()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Voye Kòd Verifikasyon</button>
-      
-      <input type="text" id="verificationCode" placeholder="Antre kòd 6 chif la" class="w-full border p-2 rounded" />
-      
-      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded w-full">Verifye & Kreye Kont</button>
-    </form>
+      <!-- Kòd verifikasyon -->
+      <div id="verificationSection" class="hidden space-y-2">
+        <input type="text" id="verificationCodeInput" placeholder="Antre kòd verifikasyon an" class="w-full border px-3 py-2 rounded" />
+      </div>
 
-    <p class="mt-4 text-center text-sm">Ou deja gen kont? 
-      <a href="login.html" class="text-blue-600 underline">Konekte isit la</a>
-    </p>
-  </main>
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded font-semibold">Voye Kòd Verifikasyon</button>
+
+      <p class="text-sm text-center mt-3">
+        Ou gen kont deja? <a href="login.html" class="text-blue-600 underline">Konekte</a>
+      </p>
+    </form>
+  </div>
 
   <script>
-    function sendVerificationCode() {
-      const phone = document.getElementById('phone').value.trim();
-      if (!phone) {
-        alert("Tanpri antre nimewo WhatsApp ou.");
+    const form = document.getElementById('signupForm');
+    const verificationSection = document.getElementById('verificationSection');
+    const verificationInput = document.getElementById('verificationCodeInput');
+
+    let generatedCode = "";
+
+    function sendVerificationEmail(name, email, code) {
+      emailjs.send("VOTRE_SERVICE_ID", "VOTRE_TEMPLATE_ID", {
+        user_name: name,
+        user_email: email,
+        verification_code: code
+      }).then(() => {
+        alert("Kòd verifikasyon an voye sou imel ou.");
+        verificationSection.classList.remove("hidden");
+      }).catch((error) => {
+        console.error("Erreur:", error);
+        alert("Echèk pou voye email la.");
+      });
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const codeInput = verificationInput.value.trim();
+
+      if (generatedCode && codeInput) {
+        if (codeInput === generatedCode) {
+          alert("Kont ou verifye avèk siksè!");
+          // Ou ka ajoute kòd pou sove done yo oswa voye yo nan Google Sheets
+        } else {
+          alert("Kòd la pa kòrèk.");
+        }
         return;
       }
 
-      // Placeholder pou voye kòd via WhatsApp API
-      const code = Math.floor(100000 + Math.random() * 900000); // 6 chif
-      sessionStorage.setItem("verificationCode", code);
-      alert(`Kòd ou a se: ${code} (valab 30 minit)`);
-      // Nan realite, kòd sa ap voye sou WhatsApp
-    }
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const enteredCode = document.getElementById("verificationCode").value.trim();
-      const savedCode = sessionStorage.getItem("verificationCode");
-      if (enteredCode === savedCode) {
-        alert("Kont kreye avèk siksè!");
-        // Redirect oswa sove enfòmasyon
-      } else {
-        alert("Kòd verifikasyon an pa kòrèk.");
-      }
+      generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+      sendVerificationEmail(name, email, generatedCode);
     });
   </script>
-
 </body>
 </html>
