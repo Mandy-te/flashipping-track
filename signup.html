@@ -8,7 +8,7 @@
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
     (function() {
-      emailjs.init("VOTRE_PUBLIC_KEY"); // Remplace ak public key ou
+      emailjs.init("jP7JbeJyy4C9CMTQ7"); // Remplace ak public key ou
     })();
   </script>
 </head>
@@ -43,7 +43,7 @@
     let generatedCode = "";
 
     function sendVerificationEmail(name, email, code) {
-      emailjs.send("VOTRE_SERVICE_ID", "VOTRE_TEMPLATE_ID", {
+      emailjs.send("service_z1g936e", "template_4i03xge", {
         user_name: name,
         user_email: email,
         verification_code: code
